@@ -5,7 +5,7 @@ import { FaCalendarAlt,  FaTable, FaList } from 'react-icons/fa';
 
 export function Filters () {
     return (
-        <Stack isInline>
+        <Stack isInline mb="25px">
             <Select bg="white">
                 {languages.map((language) => (
                     <option value={language.value}>{language.label}</option>

@@ -7,7 +7,7 @@ export function Brand () {
         <Flex alignItems="center">
                     <Image src={logo}  boxSize="100px"/>
                     <Box ml="10px">
-                        <Heading fontSize="24px">GitHunt</Heading>
+                        <Heading fontSize="38px">GitHunt</Heading>
                         <Text color="gray.600">Most starred projects on GitHub</Text>
                     </Box>
                 </Flex>
