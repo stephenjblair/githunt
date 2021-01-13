@@ -5,30 +5,48 @@ import { FaStar } from 'react-icons/fa';
 import { AiOutlineFork } from 'react-icons/ai';
 import { VscIssues } from 'react-icons/vsc';
 
-export function Repo () {
+export function Repo (props) {
+    const { isListView } = props;
     return (
-        <Box borderWidth={1} bg="white" p="15px" rounded="5px">
-            <Flex mb="15px">
-                <Image 
-                    src={image} 
-                    w ={"35px"} 
-                    h={"35px"} 
-                    rounded="5px"
-                />
+        <Flex borderWidth={1} bg="white" p="15px" rounded="5px" alignItems="flex-start">
+            <Flex flex={1} flexDir="column">
+                {!isListView && (
+                    <Flex mb="15px">
+                        <Image 
+                        src={image} 
+                        w ={"35px"} 
+                        h={"35px"} 
+                        rounded="5px"
+                    />
                 <Box ml="10px">
                     <Heading fontSize="16px">Stephen Blair</Heading>
                     <Text font-size="13px">View profile</Text>
                 </Box>
             </Flex>
+            )}
             <Box mb="15px">
                 <Box mb="10px">
-                    <Heading 
-                        fontSize="19px" 
-                        as ="a" 
-                        href="http://www.github.com" 
-                        target="_blank" 
-                        color="purple.700">githunt
-                    </Heading>
+                    <Flex fontSize="19px" fontWeight={700} color="purple.700" mb="3px">
+                        {isListView && (
+                            <>
+                                <Text 
+                                    as ="a" 
+                                    href="http://www.github.com" 
+                                    target="_blank"
+                                >
+                                    Stephen Blair
+                                </Text>
+                                &nbsp;/&nbsp;
+                            </>
+                        )}
+                        <Text 
+                            as ="a" 
+                            href="http://www.github.com" 
+                            target="_blank"
+                        >
+                            githunt
+                        </Text>
+                    </Flex>
                     <Text 
                         fontSize="14px"
                         color="gray.600">Built by &middot;  
@@ -44,7 +62,7 @@ export function Repo () {
                     color="gray.900">Find the most starred projects for any date on GitHub
                 </Text>
             </Box>
-            <Stack isInline>
+            <Stack isInline spacing="10px">
                 <Button 
                     as="a" 
                     cursor="pointer" 
@@ -70,9 +88,18 @@ export function Repo () {
                     variant="link" 
                     fontSize="14px" 
                     iconSpacing="4px" 
-                    _hover={{textDecoration: 'none'}}>3847s
+                    _hover={{textDecoration: 'none'}}>3847
                 </Button>
             </Stack>
-        </Box>
+        </Flex>
+        {isListView && (
+            <Image
+                src={image}
+                w={"105px"}
+                h={"105px"}
+                rounded="100%"
+            />
+        )}
+    </Flex>
     )
 }
