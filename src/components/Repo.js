@@ -6,7 +6,7 @@ import { AiOutlineFork } from 'react-icons/ai';
 import { VscIssues } from 'react-icons/vsc';
 
 export function Repo (props) {
-    const { isListView } = props;
+    const { isListView = false, repo } = props;
     return (
         <Flex 
             borderWidth={1} 

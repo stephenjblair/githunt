@@ -11,7 +11,7 @@ import useFetch from 'use-http';
 function transformFilters({ startDate, endDate, language}) {
     const transformedFilters = {};
 
-    const languageQuery = language ? `language:${language}` : "";
+    const languageQuery = language ? `language=${language}` : "";
     const dateQuery = `created:${startDate}..${endDate}`;
 
     transformedFilters.q = languageQuery + dateQuery;
@@ -31,6 +31,7 @@ export function Feed () {
     const [language, setLanguage]= useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState(moment().subtract(1, 'day').format());
+    const [repositories, setRepositories] = useState([]);
 
     useEffect(() => {
        const endDate =  moment().subtract(1, 'day').format();
@@ -38,7 +39,9 @@ export function Feed () {
        
        setEndDate(endDate);
        setStartDate(startDate);
-    }, [dateJump]);
+
+       setRepositories([]);
+    }, [dateJump, language]);
 
     useEffect(() => {
         if (!startDate) {
@@ -48,14 +51,21 @@ export function Feed () {
         const filters = transformFilters({ language, startDate, endDate });
         const filtersQuery = new URLSearchParams(filters).toString();
         get(`/search/repositories?${filtersQuery}`).then((res) => {
-            console.log(res)
+            setRepositories([
+                ...repositories,
+                {
+                    startDate,
+                    endDate,
+                    items: res.items,
+                }
+            ])
         })
     }, [startDate]);
     return (
         <Box maxWidth="1200px" mx="auto">
             <PageHeader />
             <Flex alignItems="center" justifyContent="space-between">
-                <GroupTitle />
+                <GroupTitle startDate={startDate} endDate={endDate} />
                 <Filters 
                     viewType={viewType}
                     onViewChange={setViewType}
@@ -65,17 +75,32 @@ export function Feed () {
                     onLanguageChange={setLanguage}
                 />
             </Flex>
-            <SimpleGrid columns={viewType === 'list' ? 1 : 3} spacing="15px">
-               <Repo isListView={viewType === 'list'}/>     
-               <Repo isListView={viewType === 'list'}/>  
-               <Repo isListView={viewType === 'list'}/>  
-               <Repo isListView={viewType === 'list'}/>  
-               <Repo isListView={viewType === 'list'}/>  
-               <Repo isListView={viewType === 'list'}/>  
-               <Repo isListView={viewType === 'list'}/>  
-            </SimpleGrid>
-            <Flex alignItems="center" justifyContent="center" my="20px">
-                <Button colorScheme="blue">Load next group</Button>
+
+            {repositories.map((repoGroup, counter) => {
+                const groupTitle = counter > 0 && (
+                    <GroupTitle p="25px"
+                            startDate={repoGroup.startDate}
+                            endDate={repoGroup.endDate}
+                    />
+                )
+                return (
+                    <Box> 
+                        { groupTitle }
+                    <SimpleGrid columns={viewType === 'list' ? 1 : 3} spacing="15px">
+                        {repoGroup.items.map(repo => <Repo isListView={viewType === 'list'} repo={repo} /> )}       
+                    </SimpleGrid>
+                    </Box>
+                )
+            })}
+   
+            <Flex alignItems="center" justifyContent="center" my="20px" >
+                <Button 
+                    isLoading={loading} 
+                    onClick={() => {
+                        setEndDate(startDate);
+                        setStartDate(moment(startDate).subtract(1, dateJump).format())
+                    }}
+                colorScheme="blue">Load next group</Button>
             </Flex>
         </Box>
     )

@@ -1,14 +1,22 @@
 import React from 'react';
+import moment from 'moment'; 
 import { Text } from '@chakra-ui/react';
 
-export function GroupTitle () {
+export function GroupTitle ({ startDate, endDate }) {
+    if (!startDate || !endDate) {
+        return null;
+    }
+
+    const startMoment = moment(startDate);
+    const endMoment = moment(endDate);
+
     return (
         <Text 
             fontSize="20px" 
             fontWeight={700} 
             mb="25px"
         >
-        This week 
+        { startMoment.fromNow() } { "" }
             <Text 
                 fontSize="15px" 
                 fontWeight={500} 
@@ -16,7 +24,7 @@ export function GroupTitle () {
                 ml="5px" 
                 as="span"
             > 
-            11th January 2021 - 18th January 2021
+            {startMoment.format("MMMM D, YYYY")} - {endMoment.format("MMMM D, YYYY")}
             </Text>
         </Text>
     )
