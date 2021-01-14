@@ -8,13 +8,19 @@ import { VscIssues } from 'react-icons/vsc';
 export function Repo (props) {
     const { isListView } = props;
     return (
-        <Flex borderWidth={1} bg="white" p="15px" rounded="5px" alignItems="flex-start">
+        <Flex 
+            borderWidth={1} 
+            bg="white" 
+            p="15px" 
+            rounded="5px" 
+            alignItems="flex-start"
+        >
             <Flex flex={1} flexDir="column">
                 {!isListView && (
-                    <Flex mb="15px">
+                    <Flex mb="15px" as="a" href="https://www.github.com">
                         <Image 
                         src={image} 
-                        w ={"35px"} 
+                        w={"35px"} 
                         h={"35px"} 
                         rounded="5px"
                     />
