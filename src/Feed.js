@@ -5,9 +5,27 @@ import { GroupTitle } from './components/GroupTitle';
 import { Filters } from './components/Filters';
 import { Repo } from './components/Repo';
 import moment from 'moment';
+import useFetch from 'use-http';
 
 
+function transformFilters({ startDate, endDate, language}) {
+    const transformedFilters = {};
+
+    const languageQuery = language ? `language:${language}` : "";
+    const dateQuery = `created:${startDate}..${endDate}`;
+
+    transformedFilters.q = languageQuery + dateQuery;
+    transformedFilters.sort = "stars";
+    transformedFilters.order = "desc";
+
+    return transformedFilters;
+    
+
+
+}
 export function Feed () {
+    const { loading, error, get} = useFetch('https://api.github.com');
+
     const [viewType, setViewType] = useState('grid');
     const [dateJump, setDateJump] = useState('day');
     const [language, setLanguage]= useState('');
@@ -20,7 +38,19 @@ export function Feed () {
        
        setEndDate(endDate);
        setStartDate(startDate);
-    }, [dateJump])
+    }, [dateJump]);
+
+    useEffect(() => {
+        if (!startDate) {
+            return
+        }
+
+        const filters = transformFilters({ language, startDate, endDate });
+        const filtersQuery = new URLSearchParams(filters).toString();
+        get(`/search/repositories?${filtersQuery}`).then((res) => {
+            console.log(res)
+        })
+    }, [startDate]);
     return (
         <Box maxWidth="1200px" mx="auto">
             <PageHeader />
