@@ -4,6 +4,7 @@ import image from '../img/logo.svg'
 import { FaStar } from 'react-icons/fa';
 import { AiOutlineFork } from 'react-icons/ai';
 import { VscIssues } from 'react-icons/vsc';
+import moment from 'moment';
 
 export function Repo (props) {
     const { isListView = false, repo } = props;
@@ -17,15 +18,15 @@ export function Repo (props) {
         >
             <Flex flex={1} flexDir="column">
                 {!isListView && (
-                    <Flex mb="15px" as="a" href="https://www.github.com">
+                    <Flex mb="15px" as="a" href={repo.owner.html_url}>
                         <Image 
-                        src={image} 
+                        src={repo.owner.avatar_url} 
                         w={"35px"} 
                         h={"35px"} 
                         rounded="5px"
                     />
                 <Box ml="10px">
-                    <Heading fontSize="16px">Stephen Blair</Heading>
+                    <Heading fontSize="16px">{repo.owner.login}</Heading>
                     <Text font-size="13px">View profile</Text>
                 </Box>
             </Flex>
@@ -37,55 +38,70 @@ export function Repo (props) {
                             <>
                                 <Text 
                                     as ="a" 
-                                    href="http://www.github.com" 
+                                    href={repo.owner.html_url} 
                                     target="_blank"
                                 >
-                                    Stephen Blair
+                                    {repo.owner.login}
                                 </Text>
                                 &nbsp;/&nbsp;
                             </>
                         )}
                         <Text 
                             as ="a" 
-                            href="http://www.github.com" 
+                            href={repo.owner.html_url}
                             target="_blank"
                         >
-                            githunt
+                            {repo.name}
                         </Text>
                     </Flex>
                     <Text 
                         fontSize="14px"
-                        color="gray.600">Built by &middot;  
+                        color="gray.600"
+                    >
+                    <Box as={"span"} d={["none", "inline", "inline"]}>
+                        Built by &middot;  {""}
                             <Link 
                                 fontWeight={600}
-                                href="http://www.google.com" 
-                                target="_blank">Stephen Blair
-                            </Link> &middot; January 13th 2021
+                                href={repo.owner.html_url}
+                                target="_blank"
+                            >
+                                {repo.owner.login}
+                            </Link> &middot; 
+                            </Box>
+                            {moment(repo.created_at).format("MMM D, YYYY")}
                     </Text>
                 </Box>
                 <Text 
                     fontSize="14px" 
-                    color="gray.900">Find the most starred projects for any date on GitHub
+                    color="gray.900"
+                >
+                    {repo.description}
                 </Text>
             </Box>
             <Stack isInline spacing="10px">
                 <Button 
                     as="a" 
+                    href={`${repo.html_url}/stargazers`}
                     cursor="pointer" 
                     leftIcon={<FaStar />} 
                     variant="link" 
                     fontSize="14px" 
                     iconSpacing="4px" 
-                    _hover={{textDecoration: 'none'}}>3847s
+                    _hover={{textDecoration: 'none'}}
+                >
+                    {repo.stargazers_count}
                 </Button>
                 <Button 
                     as="a" 
+                    href={`${repo.html_url}/network/members`}
                     cursor="pointer" 
                     leftIcon={<AiOutlineFork />} 
                     variant="link" 
                     fontSize="14px" 
                     iconSpacing="4px" 
-                    _hover={{textDecoration: 'none'}}>3847s
+                    _hover={{textDecoration: 'none'}}
+                >
+                    
                 </Button>
                 <Button 
                     as="a" 

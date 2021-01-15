@@ -4,6 +4,7 @@ import { PageHeader } from './components/PageHeader';
 import { GroupTitle } from './components/GroupTitle';
 import { Filters } from './components/Filters';
 import { Repo } from './components/Repo';
+import { PageLoader } from './components/PageLoader';
 import moment from 'moment';
 import useFetch from 'use-http';
 
@@ -64,7 +65,12 @@ export function Feed () {
     return (
         <Box maxWidth="1200px" mx="auto">
             <PageHeader />
-            <Flex alignItems="center" justifyContent="space-between">
+            { repositories.length === 0 && loading && <PageLoader /> }
+            <Flex 
+                alignItems="center" 
+                justifyContent="space-between" 
+              
+            >
                 <GroupTitle startDate={startDate} endDate={endDate} />
                 <Filters 
                     viewType={viewType}
@@ -96,6 +102,7 @@ export function Feed () {
             <Flex alignItems="center" justifyContent="center" my="20px" >
                 <Button 
                     isLoading={loading} 
+                    mb="25px"
                     onClick={() => {
                         setEndDate(startDate);
                         setStartDate(moment(startDate).subtract(1, dateJump).format())
