@@ -1,17 +1,24 @@
 # GitHunt App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).  
-The app allows users to retrieve the most starred repositories from GitHub via the GitHub API.  
-Results can be filtered by day, week, month or year.  
-A grid view or list view is available
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+The app allows users to retrieve the most starred repositories from GitHub via the GitHub API.
+
+Results can be filtered by day, week, month or year.
+
+A grid view or list view is available.
 
 ## Screenshot
 
-![Home Page](./img/githunt.png)
+![Home Page](./src/img/githunt.png)
 
 ## Live Demo
 
 A live demo of the application can be seen [here](https://githunt-app.netlify.app)
+
+## Deployment
+
+The app was deployed via Netlify.
 
 ## Running Locally
 
