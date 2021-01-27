@@ -1,4 +1,4 @@
-# GitHuny App
+# GitHunt App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).  
 The app allows users to retrieve the most starred repositories from GitHub via the GitHub API.  
@@ -7,7 +7,7 @@ A grid view or list view is available
 
 ## Screenshot
 
-![Home Page](githunt.png)
+![Home Page](./img/githunt.png)
 
 ## Live Demo
 
